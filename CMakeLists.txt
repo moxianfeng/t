@@ -7,6 +7,8 @@ set(CMAKE_BUILD_TYPE "DEBUG")
 
 project(t)
 
+include_directories(include)
+
 file(GLOB SOURCES
         include/*.h
         src/*.cpp
@@ -19,9 +21,14 @@ include_directories(include test)
 
 add_executable(${PROJECT_NAME} ${SOURCES} src/main.cpp)
 
+find_package(Boost 1.81.0 REQUIRED COMPONENTS program_options)
+target_link_libraries(${PROJECT_NAME} PRIVATE Boost::boost Boost::program_options)
 
-find_package(Boost 1.81.0 REQUIRED COMPONENTS)
-target_link_libraries(${PROJECT_NAME} PRIVATE Boost::boost)
+find_package(yaml-cpp CONFIG REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE yaml-cpp)
+
+find_package(glog CONFIG REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE glog::glog)
 
 set(TEST_TARGET ${PROJECT_NAME}_test)
 
@@ -41,7 +48,14 @@ add_executable(
         ${SOURCES}
 )
 
-gtest_discover_tests(${TEST_TARGET})
-target_link_libraries(${TEST_TARGET} PRIVATE GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
 
-add_test(AllTestsInMain ${TEST_TARGET})
+#target_link_libraries(${TEST_TARGET} PRIVATE GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
+target_link_libraries(${TEST_TARGET} PRIVATE GTest::gtest_main
+        Boost::boost
+        Boost::program_options
+        yaml-cpp
+        glog::glog
+)
+gtest_discover_tests(${TEST_TARGET})
+
+#add_test(AllTestsInMain ${TEST_TARGET})

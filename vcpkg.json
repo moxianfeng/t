@@ -1,6 +1,11 @@
 {
+  "name": "t",
+  "version": "0.0.1",
   "dependencies": [
     "boost-asio",
+    "boost-program-options",
+    "yaml-cpp",
+    "glog",
     "gtest"
   ]
 }
