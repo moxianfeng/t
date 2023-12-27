@@ -1,5 +1,8 @@
 .PHONY: build
 build:
-	cmake --preset=default
 	cmake --build build
+
+.PHONY: preset
+preset:
+	cmake --preset=default
 

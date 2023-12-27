@@ -10,7 +10,7 @@ namespace asio = boost::asio;
 
 std::string configFile;
 
-void process_command_line(int argc, char **argv) {
+void processCommandLine(int argc, char **argv) {
     po::options_description mainCommand("Program Usage", 1024, 512);
 
     mainCommand.add_options()
@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
     FLAGS_logtostderr = true;
     google::InitGoogleLogging(argv[0]);
 
-    process_command_line(argc, argv);
+    processCommandLine(argc, argv);
 
     LOG(INFO) << "use config file: " << configFile << std::endl;
 
